@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>DrRuby.ai — N=1 Research Study · Dr. Charles Brenner</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Jost:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --red: #C8102E;
+  --red-lt: rgba(200,16,46,0.07);
+  --ink: #1A1A1A;
+  --mid: #888;
+  --off: #F8F7F5;
+  --white: #FFFFFF;
+  --border: #E8E5E2;
+  --serif: 'Cormorant Garamond', serif;
+  --sans: 'Jost', sans-serif;
+}
+body { font-family: var(--sans); background: var(--white); color: var(--ink); font-weight: 300; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--white); border-bottom: 1px solid var(--border);
+  padding: 0 56px; height: 64px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.nav-logo { font-family: var(--serif); font-size: 22px; color: var(--ink); text-decoration: none; }
+.nav-logo span { color: var(--red); }
+.nav-links { display: flex; gap: 32px; align-items: center; }
+.nav-link { font-size: 11px; letter-spacing: 0.1em; color: var(--mid); text-decoration: none; transition: color 0.2s; }
+.nav-link:hover { color: var(--ink); }
+.nav-cta {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase;
+  background: var(--red); color: white; padding: 10px 22px; text-decoration: none;
+  transition: opacity 0.2s;
+}
+.nav-cta:hover { opacity: 0.85; }
+
+/* ── HERO ── */
+.hero {
+  background: var(--ink); padding: 96px 56px 80px;
+  display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center;
+}
+.hero-eyebrow {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 20px;
+}
+.hero-title {
+  font-family: var(--serif); font-size: 52px; font-weight: 300;
+  color: white; line-height: 1.15; margin-bottom: 20px;
+}
+.hero-title em { font-style: italic; color: #f0c0c8; }
+.hero-sub { font-size: 14px; color: rgba(255,255,255,0.4); line-height: 1.8; margin-bottom: 36px; }
+.hero-cta {
+  display: inline-block; font-size: 10px; font-weight: 600; letter-spacing: 0.2em;
+  text-transform: uppercase; background: var(--red); color: white;
+  padding: 16px 36px; text-decoration: none; cursor: pointer;
+}
+.hero-stats { display: flex; gap: 36px; margin-top: 40px; }
+.hero-stat-num { font-family: var(--serif); font-size: 36px; font-weight: 300; color: white; }
+.hero-stat-label { font-size: 9px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(255,255,255,0.3); margin-top: 4px; }
+
+/* ── BRENNER SECTION ── */
+.brenner { padding: 80px 56px; background: var(--white); }
+.section-eyebrow {
+  font-size: 9px; font-weight: 600; letter-spacing: 0.3em; text-transform: uppercase;
+  color: var(--red); margin-bottom: 16px;
+}
+.section-title {
+  font-family: var(--serif); font-size: 38px; font-weight: 300;
+  color: var(--ink); line-height: 1.2; margin-bottom: 48px;
+}
+.brenner-grid { display: grid; grid-template-columns: 280px 1fr; gap: 64px; align-items: start; }
+.brenner-photo {
+  width: 280px; aspect-ratio: 3/4; background: var(--off);
+  border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--serif); font-size: 64px; color: var(--border);
+}
+.brenner-name { font-family: var(--serif); font-size: 26px; font-weight: 400; margin-top: 16px; }
+.brenner-titles { font-size: 11px; color: var(--mid); line-height: 2; margin-top: 6px; letter-spacing: 0.02em; }
+.brenner-quote {
+  font-family: var(--serif); font-size: 24px; font-weight: 300; font-style: italic;
+  color: var(--ink); line-height: 1.5; border-left: 2px solid var(--red);
+  padding-left: 28px; margin-bottom: 28px;
+}
+.brenner-bio { font-size: 13px; color: var(--mid); line-height: 1.9; margin-bottom: 36px; }
+.brenner-nums { display: flex; gap: 48px; padding-top: 28px; border-top: 1px solid var(--border); }
+.bnum { }
+.bnum-val { font-family: var(--serif); font-size: 34px; color: var(--red); }
+.bnum-label { font-size: 9px; letter-spacing: 0.14em; text-transform: uppercase; color: var(--mid); margin-top: 4px; }
+
+/* ── DIVIDER ── */
+.divider { height: 1px; background: var(--border); margin: 0 56px; }
+
+/* ── STUDY SECTION ── */
+.study { padding: 80px 56px; background: var(--off); }
+.study-intro { max-width: 680px; margin-bottom: 56px; }
+.study-intro p { font-size: 14px; color: var(--mid); line-height: 1.9; }
+
+/* 6-phase timeline */
+.phases { display: grid; grid-template-columns: repeat(6,1fr); gap: 0; border: 1px solid var(--border); background: var(--white); margin-bottom: 48px; }
+.phase { padding: 24px 18px; border-right: 1px solid var(--border); }
+.phase:last-child { border-right: none; }
+.phase-num { font-size: 8px; font-weight: 700; letter-spacing: 0.22em; text-transform: uppercase; color: var(--red); margin-bottom: 8px; }
+.phase-timing { font-size: 9px; color: var(--mid); margin-bottom: 10px; }
+.phase-name { font-size: 13px; font-weight: 500; color: var(--ink); margin-bottom: 10px; line-height: 1.3; }
+.phase-desc { font-size: 11px; color: var(--mid); line-height: 1.6; }
+.phase-active { background: var(--red-lt); border-top: 2px solid var(--red); }
+
+/* visual connector */
+.phase-flow {
+  display: flex; align-items: center; justify-content: center;
+  gap: 0; margin-bottom: 24px; overflow-x: auto; padding: 16px 0;
+}
+.flow-node {
+  display: flex; flex-direction: column; align-items: center; flex-shrink: 0;
+}
+.flow-dot {
+  width: 12px; height: 12px; border-radius: 50%; background: var(--border);
+  border: 2px solid var(--border);
+}
+.flow-dot.active { background: var(--red); border-color: var(--red); }
+.flow-label { font-size: 9px; color: var(--mid); margin-top: 6px; text-align: center; white-space: nowrap; letter-spacing: 0.06em; }
+.flow-line { width: 60px; height: 2px; background: var(--border); flex-shrink: 0; margin-top: -13px; }
+.flow-line.active { background: var(--red); }
+
+/* ── ELIGIBILITY ── */
+.eligibility { padding: 80px 56px; background: var(--white); }
+.elig-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; margin-top: 40px; }
+.elig-card { border: 1px solid var(--border); padding: 32px; }
+.elig-head {
+  font-size: 10px; font-weight: 600; letter-spacing: 0.2em; text-transform: uppercase;
+  margin-bottom: 20px; padding-bottom: 12px; border-bottom: 1px solid var(--border);
+}
+.elig-head.yes { color: #2e7d32; }
+.elig-head.no  { color: var(--red); }
+.elig-list { list-style: none; }
+.elig-list li {
+  font-size: 13px; color: var(--mid); line-height: 1.7;
+  padding: 7px 0; border-bottom: 1px solid var(--off);
+  display: flex; gap: 10px;
+}
+.elig-list li:last-child { border-bottom: none; }
+.elig-icon { flex-shrink: 0; margin-top: 1px; }
+
+/* ── CONSENT ── */
+.consent { padding: 80px 56px; background: var(--ink); }
+.consent .section-title { color: white; }
+.consent-grid { display: grid; grid-template-columns: repeat(4,1fr); gap: 1px; background: rgba(255,255,255,0.06); margin-top: 40px; }
+.consent-card { background: var(--ink); padding: 32px 24px; }
+.consent-num { font-family: var(--serif); font-size: 40px; color: rgba(255,255,255,0.08); margin-bottom: 12px; }
+.consent-title { font-size: 11px; font-weight: 600; letter-spacing: 0.14em; text-transform: uppercase; color: var(--red); margin-bottom: 12px; }
+.consent-text { font-size: 12px; color: rgba(255,255,255,0.35); line-height: 1.8; }
+
+/* ── APPLY ── */
+.apply { padding: 80px 56px; background: var(--off); }
+.apply-inner { max-width: 680px; margin: 0 auto; text-align: center; }
+.apply .section-title { text-align: center; margin-bottom: 16px; }
+.apply-sub { font-size: 14px; color: var(--mid); line-height: 1.8; margin-bottom: 40px; }
+.apply-form { background: var(--white); border: 1px solid var(--border); padding: 40px; text-align: left; }
+.form-row { margin-bottom: 20px; }
+.form-label { font-size: 10px; font-weight: 600; letter-spacing: 0.16em; text-transform: uppercase; color: var(--mid); margin-bottom: 8px; display: block; }
+.form-input {
+  width: 100%; border: 1px solid var(--border); padding: 12px 14px;
+  font-family: var(--sans); font-size: 13px; color: var(--ink);
+  background: var(--white); outline: none; transition: border 0.2s;
+}
+.form-input:focus { border-color: var(--red); }
+.form-select {
+  width: 100%; border: 1px solid var(--border); padding: 12px 14px;
+  font-family: var(--sans); font-size: 13px; color: var(--ink);
+  background: var(--white); outline: none; appearance: none; cursor: pointer;
+}
+.form-check { display: flex; gap: 12px; align-items: flex-start; margin-bottom: 12px; }
+.form-check input { margin-top: 3px; accent-color: var(--red); flex-shrink: 0; }
+.form-check label { font-size: 12px; color: var(--mid); line-height: 1.6; }
+.form-submit {
+  width: 100%; background: var(--red); color: white; border: none;
+  font-family: var(--sans); font-size: 11px; font-weight: 600;
+  letter-spacing: 0.2em; text-transform: uppercase;
+  padding: 18px; cursor: pointer; margin-top: 8px; transition: opacity 0.2s;
+}
+.form-submit:hover { opacity: 0.85; }
+.form-note { font-size: 10px; color: var(--mid); text-align: center; margin-top: 14px; line-height: 1.6; }
+.form-divider { border: none; border-top: 1px solid var(--border); margin: 24px 0; }
+
+/* ── FOOTER ── */
+footer { background: #111; padding: 24px 56px; display: flex; align-items: center; justify-content: space-between; }
+.footer-logo { font-family: var(--serif); font-size: 16px; color: rgba(255,255,255,0.2); }
+.footer-logo span { color: rgba(200,16,46,0.3); }
+.footer-links { display: flex; gap: 24px; }
+.footer-link { font-size: 9px; color: rgba(255,255,255,0.15); letter-spacing: 0.08em; text-decoration: none; }
+
+@media (max-width: 768px) {
+  .hero { grid-template-columns: 1fr; padding: 56px 24px; }
+  .brenner-grid { grid-template-columns: 1fr; }
+  .phases { grid-template-columns: 1fr 1fr; }
+  .phase { border-bottom: 1px solid var(--border); }
+  .elig-grid { grid-template-columns: 1fr; }
+  .consent-grid { grid-template-columns: 1fr 1fr; }
+}
+</style>
+</head>
+<body>
+
+<!-- ── NAV ── -->
+<nav>
+  <a href="#" class="nav-logo">Dr<span>Ruby</span>.ai</a>
+  <div class="nav-links">
+    <a href="#study" class="nav-link">The Study</a>
+    <a href="#eligibility" class="nav-link">Eligibility</a>
+    <a href="#consent" class="nav-link">Consent</a>
+    <a href="#apply" class="nav-cta">Apply Now</a>
+  </div>
+</nav>
+
+<!-- ── HERO ── -->
+<section class="hero">
+  <div>
+    <div class="hero-eyebrow">N=1 Longitudinal Study · DrRuby.ai × Dr. Charles Brenner</div>
+    <h1 class="hero-title">Science built<br>around <em>you.</em><br>Not the average.</h1>
+    <p class="hero-sub">We are recruiting women for the first N=1 double-blind women's healthspan study — designed by Dr. Charles Brenner, NAD+ pioneer and DrRuby Founding Science Advisor.</p>
+    <a href="#apply" class="hero-cta">Apply to Participate</a>
+    <div class="hero-stats">
+      <div>
+        <div class="hero-stat-num">26</div>
+        <div class="hero-stat-label">Week study</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">6</div>
+        <div class="hero-stat-label">Study phases</div>
+      </div>
+      <div>
+        <div class="hero-stat-num">N=1</div>
+        <div class="hero-stat-label">Your data · Your results</div>
+      </div>
+    </div>
+  </div>
+  <div style="display:flex;flex-direction:column;gap:16px;">
+    <div style="background:rgba(255,255,255,0.04);border:1px solid rgba(255,255,255,0.08);padding:28px;">
+      <div style="font-size:9px;letter-spacing:0.22em;text-transform:uppercase;color:rgba(255,255,255,0.25);margin-bottom:12px;">What you'll track</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+          <span style="font-size:12px;color:rgba(255,255,255,0.5);">Skin Age Score</span>
+          <span style="font-size:10px;color:var(--red);font-weight:600;">Weekly dermoscope scan</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+          <span style="font-size:12px;color:rgba(255,255,255,0.5);">Metabolic Score</span>
+          <span style="font-size:10px;color:var(--red);font-weight:600;">Self-report + wearable</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+          <span style="font-size:12px;color:rgba(255,255,255,0.5);">Recovery Score</span>
+          <span style="font-size:10px;color:var(--red);font-weight:600;">Sleep + HRV data</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;border-bottom:1px solid rgba(255,255,255,0.06);">
+          <span style="font-size:12px;color:rgba(255,255,255,0.5);">Inflammation Score</span>
+          <span style="font-size:10px;color:var(--red);font-weight:600;">Symptom log + markers</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:center;padding:10px 0;">
+          <span style="font-size:12px;color:rgba(255,255,255,0.5);">Hormonal Stability Score</span>
+          <span style="font-size:10px;color:var(--red);font-weight:600;">Cycle + mood tracking</span>
+        </div>
+      </div>
+    </div>
+    <div style="background:rgba(200,16,46,0.08);border:1px solid rgba(200,16,46,0.15);padding:18px 24px;display:flex;gap:14px;align-items:center;">
+      <div style="font-size:22px;">🔬</div>
+      <div style="font-size:12px;color:rgba(255,255,255,0.4);line-height:1.6;">Double-blind crossover design. Neither you nor the DrRuby data team knows which phase contains the active supplement until Week 26.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── BRENNER ── -->
+<section class="brenner" id="brenner">
+  <div class="section-eyebrow">Founding Science Advisor</div>
+  <h2 class="section-title">Meet Dr. Charles Brenner</h2>
+  <div class="brenner-grid">
+    <div>
+      <div class="brenner-photo">CB</div>
+      <div class="brenner-name">Dr. Charles Brenner</div>
+      <div class="brenner-titles">
+        Founding Science Advisor · DrRuby.ai<br>
+        Chair of Biochemistry · City of Hope<br>
+        Discoverer of NR (Nicotinamide Riboside)<br>
+        NAD+ metabolism pioneer<br>
+        200+ peer-reviewed publications
+      </div>
+    </div>
+    <div>
+      <div class="brenner-quote">"The most important question in health is not what the average person responds to — it's what <em>you</em> respond to."</div>
+      <p class="brenner-bio">Dr. Brenner's landmark research established the biological basis for NAD+ metabolism and how cells respond to nutritional stress. He discovered Nicotinamide Riboside (NR) as a vitamin B3 and NAD+ precursor — now one of the most researched longevity compounds in the world.</p>
+      <p class="brenner-bio">At DrRuby, Dr. Brenner leads the N=1 longitudinal study design, personally reviewing supplement evaluation protocols and ensuring every recommendation is grounded in your individual biological response — not population averages. He evaluates 50+ women's health supplements for DrRuby's evidence database.</p>
+      <div class="brenner-nums">
+        <div class="bnum">
+          <div class="bnum-val">200+</div>
+          <div class="bnum-label">Peer-reviewed papers</div>
+        </div>
+        <div class="bnum">
+          <div class="bnum-val">NAD+</div>
+          <div class="bnum-label">Pathway discoverer</div>
+        </div>
+        <div class="bnum">
+          <div class="bnum-val">50+</div>
+          <div class="bnum-label">Supplements reviewed</div>
+        </div>
+        <div class="bnum">
+          <div class="bnum-val">N=1</div>
+          <div class="bnum-label">Study lead</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="divider"></div>
+
+<!-- ── STUDY DESIGN ── -->
+<section class="study" id="study">
+  <div class="section-eyebrow">Study Design</div>
+  <h2 class="section-title">6-Phase Double-Blind<br>Crossover Protocol</h2>
+  <div class="study-intro">
+    <p>This is a 26-week N=1 crossover study. Each participant serves as their own control. The double-blind design means neither participant nor the DrRuby data team knows which phase contains the active supplement — eliminating placebo effect and observer bias simultaneously.</p>
+  </div>
+
+  <!-- Flow -->
+  <div class="phase-flow" style="margin-bottom:32px;">
+    <div class="flow-node">
+      <div class="flow-dot active"></div>
+      <div class="flow-label">Baseline<br>Wk 0–2</div>
+    </div>
+    <div class="flow-line active"></div>
+    <div class="flow-node">
+      <div class="flow-dot"></div>
+      <div class="flow-label">Washout<br>Wk 2–6</div>
+    </div>
+    <div class="flow-line"></div>
+    <div class="flow-node">
+      <div class="flow-dot active"></div>
+      <div class="flow-label">Intervention A<br>Wk 6–14</div>
+    </div>
+    <div class="flow-line active"></div>
+    <div class="flow-node">
+      <div class="flow-dot"></div>
+      <div class="flow-label">Washout<br>Wk 14–16</div>
+    </div>
+    <div class="flow-line"></div>
+    <div class="flow-node">
+      <div class="flow-dot active"></div>
+      <div class="flow-label">Intervention B<br>Wk 16–24</div>
+    </div>
+    <div class="flow-line active"></div>
+    <div class="flow-node">
+      <div class="flow-dot" style="background:var(--red);border-color:var(--red);width:16px;height:16px;margin-top:-2px;"></div>
+      <div class="flow-label">Unblinding<br>Wk 24–26</div>
+    </div>
+  </div>
+
+  <!-- 6 Phase cards -->
+  <div class="phases">
+    <div class="phase phase-active">
+      <div class="phase-num">Phase 1</div>
+      <div class="phase-timing">Week 0 – 2</div>
+      <div class="phase-name">Baseline Establishment</div>
+      <div class="phase-desc">Dermoscope skin scan baseline · Lab panel · Full supplement audit · Lifestyle and hormone questionnaire. No intervention.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">Phase 2</div>
+      <div class="phase-timing">Week 2 – 6</div>
+      <div class="phase-name">Washout Period</div>
+      <div class="phase-desc">Participant pauses all current supplements. Weekly scans continue to stabilize baseline signal and clear prior confounders.</div>
+    </div>
+    <div class="phase phase-active">
+      <div class="phase-num">Phase 3</div>
+      <div class="phase-timing">Week 6 – 14</div>
+      <div class="phase-name">Blinded Intervention A</div>
+      <div class="phase-desc">Participant receives either active supplement stack or identical placebo — double-blind. Daily dermoscope scan + weekly self-report.</div>
+    </div>
+    <div class="phase">
+      <div class="phase-num">Phase 4</div>
+      <div class="phase-timing">Week 14 – 16</div>
+      <div class="phase-name">Second Washout</div>
+      <div class="phase-desc">Crossover preparation. Scans continue to capture return to baseline before introducing the alternate condition.</div>
+    </div>
+    <div class="phase phase-active">
+      <div class="phase-num">Phase 5</div>
+      <div class="phase-timing">Week 16 – 24</div>
+      <div class="phase-name">Blinded Intervention B</div>
+      <div class="phase-desc">Crossover: participants who had active now receive placebo, and vice versa. Same scan and self-report cadence as Phase 3.</div>
+    </div>
+    <div class="phase" style="background:#fff8f9;border-top:2px solid var(--red);">
+      <div class="phase-num">Phase 6</div>
+      <div class="phase-timing">Week 24 – 26</div>
+      <div class="phase-name">Unblinding + Debrief</div>
+      <div class="phase-desc">Results revealed. Personalized N=1 report delivered. Optional debrief session with Dr. Brenner's team included.</div>
+    </div>
+  </div>
+
+  <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--border);border:1px solid var(--border);margin-top:24px;">
+    <div style="background:var(--white);padding:24px;">
+      <div style="font-size:9px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">Time commitment</div>
+      <div style="font-size:13px;color:var(--ink);">~5 min / day for dermoscope scan<br>~10 min / week for self-report<br>1 lab panel at baseline</div>
+    </div>
+    <div style="background:var(--white);padding:24px;">
+      <div style="font-size:9px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">What you receive</div>
+      <div style="font-size:13px;color:var(--ink);">DrRuby dermoscope (yours to keep)<br>Full N=1 personalized report<br>Optional Brenner team debrief</div>
+    </div>
+    <div style="background:var(--white);padding:24px;">
+      <div style="font-size:9px;font-weight:600;letter-spacing:0.2em;text-transform:uppercase;color:var(--red);margin-bottom:8px;">Cost to you</div>
+      <div style="font-size:13px;color:var(--ink);">No cost · No credit card<br>Supplement and placebo provided<br>Data ownership stays with you</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ELIGIBILITY ── -->
+<section class="eligibility" id="eligibility">
+  <div class="section-eyebrow">Participation Requirements</div>
+  <h2 class="section-title">Who we're looking for</h2>
+  <div class="elig-grid">
+    <div class="elig-card">
+      <div class="elig-head yes">✓ &nbsp;Eligibility Criteria</div>
+      <ul class="elig-list">
+        <li><span class="elig-icon" style="color:#2e7d32;">✓</span>Women ages 30–60</li>
+        <li><span class="elig-icon" style="color:#2e7d32;">✓</span>Perimenopausal or postmenopausal preferred</li>
+        <li><span class="elig-icon" style="color:#2e7d32;">✓</span>No active autoimmune flare or cancer treatment</li>
+        <li><span class="elig-icon" style="color:#2e7d32;">✓</span>Willing to pause current supplements for washout phases</li>
+        <li><span class="elig-icon" style="color:#2e7d32;">✓</span>Smartphone with camera (dermoscope provided by DrRuby)</li>
+        <li><span class="elig-icon" style="color:#2e7d32;">✓</span>Able to commit to 26 weeks</li>
+        <li><span class="elig-icon" style="color:#2e7d32;">✓</span>English-speaking</li>
+        <li><span class="elig-icon" style="color:#2e7d32;">✓</span>Not currently enrolled in another clinical study</li>
+        <li><span class="elig-icon" style="color:#2e7d32;">✓</span>Willing to provide written informed consent</li>
+      </ul>
+    </div>
+    <div class="elig-card">
+      <div class="elig-head no">✗ &nbsp;Exclusion Criteria</div>
+      <ul class="elig-list">
+        <li><span class="elig-icon" style="color:var(--red);">✗</span>Currently pregnant or breastfeeding</li>
+        <li><span class="elig-icon" style="color:var(--red);">✗</span>Active chemotherapy or radiation treatment</li>
+        <li><span class="elig-icon" style="color:var(--red);">✗</span>Severe kidney or liver disease</li>
+        <li><span class="elig-icon" style="color:var(--red);">✗</span>Known allergy to NR, NMN, or core study ingredients</li>
+        <li><span class="elig-icon" style="color:var(--red);">✗</span>Active dermatological condition affecting scan validity</li>
+        <li><span class="elig-icon" style="color:var(--red);">✗</span>Unable to complete weekly digital check-ins</li>
+        <li><span class="elig-icon" style="color:var(--red);">✗</span>Currently using HRT (unless stable for 6+ months)</li>
+        <li><span class="elig-icon" style="color:var(--red);">✗</span>Unwilling to provide written informed consent</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ── CONSENT ── -->
+<section class="consent" id="consent">
+  <div class="section-eyebrow" style="color:rgba(200,16,46,0.6);">Informed Consent</div>
+  <h2 class="section-title">What you're agreeing to</h2>
+  <div class="consent-grid">
+    <div class="consent-card">
+      <div class="consent-num">01</div>
+      <div class="consent-title">Data Ownership</div>
+      <div class="consent-text">Your data belongs to you. DrRuby holds a limited, time-bound research license for anonymized aggregate analysis only. You retain full ownership and can request deletion at any time.</div>
+    </div>
+    <div class="consent-card">
+      <div class="consent-num">02</div>
+      <div class="consent-title">Right to Withdraw</div>
+      <div class="consent-text">You may withdraw from the study at any time, for any reason, without penalty. Data collected prior to your withdrawal request will not be used in any analysis after that point.</div>
+    </div>
+    <div class="consent-card">
+      <div class="consent-num">03</div>
+      <div class="consent-title">Blinding Protocol</div>
+      <div class="consent-text">Neither you nor the DrRuby data team will know which phase contains the active supplement until the formal unblinding at Phase 6. This eliminates placebo bias from both sides.</div>
+    </div>
+    <div class="consent-card">
+      <div class="consent-num">04</div>
+      <div class="consent-title">Not Medical Care</div>
+      <div class="consent-text">Participation does not constitute medical advice or treatment. Always consult your physician before altering any health regimen. DrRuby is a research and wellness platform, not a clinical provider.</div>
+    </div>
+    <div class="consent-card">
+      <div class="consent-num">05</div>
+      <div class="consent-title">Privacy & Security</div>
+      <div class="consent-text">All scan data is processed on-device. Identifiable data is never sold or shared with third parties. Study data is anonymized before any aggregate analysis by the research team.</div>
+    </div>
+    <div class="consent-card">
+      <div class="consent-num">06</div>
+      <div class="consent-title">Publication Rights</div>
+      <div class="consent-text">Anonymized aggregate findings may be submitted for peer review or shared publicly. Individual participant data will never be published or identifiable in any research output.</div>
+    </div>
+    <div class="consent-card">
+      <div class="consent-num">07</div>
+      <div class="consent-title">Supplement Safety</div>
+      <div class="consent-text">All supplements used in this study have been reviewed by Dr. Brenner's team. Participants are advised to disclose all current medications to their physician before enrollment.</div>
+    </div>
+    <div class="consent-card">
+      <div class="consent-num">08</div>
+      <div class="consent-title">IRB Status</div>
+      <div class="consent-text">This study is conducted under DrRuby's N=1 wellness research framework. IRB review status will be disclosed to accepted participants prior to signing formal consent documentation.</div>
+    </div>
+  </div>
+</section>
+
+<!-- ── APPLY ── -->
+<section class="apply" id="apply">
+  <div class="apply-inner">
+    <div class="section-eyebrow" style="text-align:center;">Apply · Limited Spots</div>
+    <h2 class="section-title">Join the N=1 Study</h2>
+    <p class="apply-sub">Applications are reviewed by Dr. Brenner's team. Accepted participants will be contacted within 2 weeks. We expect to open the first cohort in Q3 2026.</p>
+
+    <div class="apply-form">
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.18em;text-transform:uppercase;color:var(--red);margin-bottom:24px;">Application Form</div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-row">
+          <label class="form-label">First Name</label>
+          <input type="text" class="form-input" placeholder="Jane">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Last Name</label>
+          <input type="text" class="form-input" placeholder="Smith">
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Email Address</label>
+        <input type="email" class="form-input" placeholder="jane@example.com">
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+        <div class="form-row">
+          <label class="form-label">Age</label>
+          <input type="number" class="form-input" placeholder="42" min="30" max="60">
+        </div>
+        <div class="form-row">
+          <label class="form-label">Hormonal Status</label>
+          <select class="form-select">
+            <option value="">Select...</option>
+            <option>Premenopausal (regular cycles)</option>
+            <option>Perimenopausal</option>
+            <option>Postmenopausal (natural)</option>
+            <option>Surgical menopause</option>
+            <option>On HRT (stable 6+ months)</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Primary health goal</label>
+        <select class="form-select">
+          <option value="">Select...</option>
+          <option>Skin aging & texture</option>
+          <option>Energy & metabolic health</option>
+          <option>Sleep & recovery</option>
+          <option>Hormonal balance</option>
+          <option>General healthspan & longevity</option>
+        </select>
+      </div>
+
+      <div class="form-row">
+        <label class="form-label">Current supplement routine (brief description)</label>
+        <input type="text" class="form-input" placeholder="e.g. Magnesium, Vitamin D, Collagen — daily">
+      </div>
+
+      <hr class="form-divider">
+
+      <div style="font-size:10px;font-weight:600;letter-spacing:0.14em;text-transform:uppercase;color:var(--mid);margin-bottom:14px;">Eligibility Confirmation</div>
+
+      <div class="form-check">
+        <input type="checkbox" id="c1">
+        <label for="c1">I am a woman between the ages of 30 and 60.</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="c2">
+        <label for="c2">I am willing to pause my current supplement routine during washout phases.</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="c3">
+        <label for="c3">I am not currently pregnant, breastfeeding, or undergoing cancer treatment.</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="c4">
+        <label for="c4">I understand this is a wellness research study, not medical care, and I will consult my physician before participating.</label>
+      </div>
+      <div class="form-check">
+        <input type="checkbox" id="c5">
+        <label for="c5">I have read and understood the consent summary above and agree to participate under those terms.</label>
+      </div>
+
+      <button class="form-submit">Submit Application</button>
+      <div class="form-note">Applications reviewed within 2 weeks · No commitment until formal consent is signed<br>Questions? Contact <strong>ruby@drruby.ai</strong></div>
+    </div>
+  </div>
+</section>
+
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-logo">Dr<span>Ruby</span>.ai</div>
+  <div class="footer-links">
+    <a href="#" class="footer-link">Privacy</a>
+    <a href="#" class="footer-link">Science</a>
+    <a href="#" class="footer-link">Terms</a>
+    <a href="#" class="footer-link">© 2026 DrRuby.ai</a>
+  </div>
+</footer>
+
+<script>
+// Smooth scroll
+document.querySelectorAll('a[href^="#"]').forEach(a => {
+  a.addEventListener('click', e => {
+    const target = document.querySelector(a.getAttribute('href'));
+    if (target) { e.preventDefault(); target.scrollIntoView({ behavior: 'smooth' }); }
+  });
+});
+
+// Form submit (demo)
+document.querySelector('.form-submit').addEventListener('click', () => {
+  const checks = document.querySelectorAll('.form-check input');
+  const allChecked = [...checks].every(c => c.checked);
+  if (!allChecked) {
+    alert('Please confirm all eligibility criteria before submitting.');
+    return;
+  }
+  alert('Thank you for applying. Dr. Brenner\'s team will be in touch within 2 weeks.');
+});
+</script>
+</body>
+</html>
